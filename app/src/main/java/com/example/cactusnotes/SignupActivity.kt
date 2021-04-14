@@ -2,10 +2,86 @@ package com.example.cactusnotes
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cactusnotes.databinding.ActivitySignupBinding
 
 class SignupActivity : AppCompatActivity() {
+    lateinit var binding: ActivitySignupBinding
+
+    fun String.containsLowerCase() = any { it.isLowerCase() }
+    fun String.containsUpperCase() = any { it.isUpperCase() }
+    fun String.containsDigit() = any { it.isDigit() }
+    fun Char.isSpecial() = (!isDigit() && !isLetter())
+    fun String.containsSpecChar() = any { it.isSpecial() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.signUpButton.setOnClickListener {
+            val username = binding.usernameInputLayout.editText!!.text.toString()
+            val password = binding.passwordInputLayout.editText!!.text.toString()
+            val email = binding.emailInputLayout.editText!!.text.toString()
+
+            // Password checking
+            when {
+                !password.containsLowerCase() || !password.containsDigit() ||
+                        !password.containsUpperCase() || !password.containsSpecChar() -> {
+                    binding.passwordInputLayout.error = getString(R.string.password_special_char)
+                }
+                password.length < 8 -> {
+                    binding.passwordInputLayout.error = getString(R.string.password_too_short)
+                }
+                password.length > 39 -> {
+                    binding.passwordInputLayout.error = getString(R.string.password_too_long)
+                }
+                else -> {
+                    binding.passwordInputLayout.error = null
+                    binding.passwordInputLayout.isErrorEnabled = false
+                }
+            }
+            // Email checking
+            when {
+                email == "" -> {
+                    binding.emailInputLayout.error = getString(R.string.e_mail_required)
+                }
+                !email.contains("@") && (!email.contains(".")) -> {
+                    binding.emailInputLayout.error = getString(R.string.e_mail_invalid)
+                }
+                !email.contains(".") -> {
+                    binding.emailInputLayout.error = getString(R.string.e_mail_invalid)
+                }
+                email.length < 6 -> {
+                    binding.emailInputLayout.error = getString(R.string.e_mail_invalid)
+                }
+                email.length > 49 -> {
+                    binding.emailInputLayout.error = getString(R.string.e_mail_invalid)
+                }
+                else -> {
+                    binding.emailInputLayout.error = null
+                    binding.emailInputLayout.isErrorEnabled = false
+                }
+            }
+            //Username checking
+            when {
+                username == "" -> {
+                    binding.usernameInputLayout.error = getString(R.string.username_is_required)
+                }
+                username.length < 3 -> {
+                    binding.usernameInputLayout.error = getString(R.string.username_too_short)
+                }
+                username.length > 19 -> {
+                    binding.usernameInputLayout.error = getString(R.string.username_too_long)
+                }
+                !username.all { it.isLowerCase() || it.isDigit() || username.contains("_") } -> {
+                    binding.usernameInputLayout.error =
+                        getString(R.string.username_special_char)
+                }
+                else -> {
+                    binding.usernameInputLayout.error = null
+                    binding.usernameInputLayout.isErrorEnabled = false
+                }
+            }
+        }
     }
 }
