@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="18dp"
+    android:padding="16dp"
     tools:context=".SignupActivity">
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="InvalidId">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/e_mail" />
+            android:hint="@string/e_mail"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -26,8 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/emailInputLayout"
-        android:layout_marginTop="18dp"
-        tools:ignore="InvalidId">
+        android:layout_marginTop="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -42,13 +41,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/usernameInputLayout"
-        android:layout_marginTop="18dp"
-        tools:ignore="InvalidId">
+        android:layout_marginTop="16dp"
+        app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,21 +57,18 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_below="@id/passwordInputLayout"
-        android:layout_marginTop="18dp"
-        android:text="@string/sign_up"
-        android:textSize="18sp" />
+        android:layout_marginTop="16dp"
+        android:text="@string/sign_up" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/alreadyHaveAnAccountButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
         android:layout_below="@id/signUpButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
-        android:backgroundTint="#FFFFFF"
+        android:layout_marginTop="16dp"
         android:text="@string/already_have_an_account"
-        android:textColor="@color/green"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textColor="@color/green" />
 
 </RelativeLayout>
