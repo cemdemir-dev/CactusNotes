@@ -6,11 +6,6 @@ import com.example.cactusnotes.databinding.ActivitySignupBinding
 
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
-    fun String.containsLowerCase() = any { it.isLowerCase() }
-    fun String.containsUpperCase() = any { it.isUpperCase() }
-    fun String.containsDigit() = any { it.isDigit() }
-    fun Char.isSpecial() = !isDigit() && !isLetter()
-    fun String.containsSpecialChars() = any { it.isSpecial() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,24 +19,13 @@ class SignupActivity : AppCompatActivity() {
             val password = binding.passwordInputLayout.editText!!.text.toString()
             val email = binding.emailInputLayout.editText!!.text.toString()
 
-            when {
-                password.isBlank() -> {
-                    binding.passwordInputLayout.error = getString(R.string.password_is_required)
-                }
-                !password.containsLowerCase() || !password.containsDigit() ||
-                        !password.containsUpperCase() || !password.containsSpecialChars() -> {
-                    binding.passwordInputLayout.error = getString(R.string.password_must_contain)
-                }
-                password.length < 8 -> {
-                    binding.passwordInputLayout.error = getString(R.string.password_too_short)
-                }
-                password.length > 39 -> {
-                    binding.passwordInputLayout.error = getString(R.string.password_too_long)
-                }
-                else -> {
-                    binding.passwordInputLayout.error = null
-                    binding.passwordInputLayout.isErrorEnabled = false
-                }
+            val passwordValidator = PasswordValidator()
+            val passwordError = passwordValidator.validate(password)
+            if (passwordError == null) {
+                binding.passwordInputLayout.error = null
+                binding.passwordInputLayout.isErrorEnabled = false
+            } else {
+                binding.passwordInputLayout.error = getString(passwordError)
             }
 
             when {
