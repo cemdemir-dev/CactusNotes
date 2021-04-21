@@ -3,6 +3,8 @@ package com.example.cactusnotes
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cactusnotes.databinding.ActivitySignupBinding
+import com.google.android.material.textfield.TextInputLayout
+import java.lang.IllegalArgumentException
 
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
@@ -15,36 +17,29 @@ class SignupActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.sign_up_tool_bar_name)
 
         binding.signUpButton.setOnClickListener {
-            val username = binding.usernameInputLayout.editText!!.text.toString()
-            val password = binding.passwordInputLayout.editText!!.text.toString()
-            val email = binding.emailInputLayout.editText!!.text.toString()
-
-            val passwordValidator = PasswordValidator()
-            val passwordError = passwordValidator.validate(password)
-            if (passwordError == null) {
-                binding.passwordInputLayout.error = null
-                binding.passwordInputLayout.isErrorEnabled = false
-            } else {
-                binding.passwordInputLayout.error = getString(passwordError)
-            }
-
-            val emailValidator = EmailValidator()
-            val emailError = emailValidator.validate(email)
-            if (emailError == null) {
-                binding.emailInputLayout.error = null
-                binding.emailInputLayout.isErrorEnabled = false
-            } else {
-                binding.emailInputLayout.error = getString(emailError)
-            }
-
-            val usernameValidator = UsernameValidator()
-            val usernameError = usernameValidator.validate(username)
-            if (usernameError == null) {
-                binding.usernameInputLayout.error = null
-                binding.usernameInputLayout.isErrorEnabled = false
-            } else {
-                binding.usernameInputLayout.error = getString(usernameError)
-            }
+            validate(binding.passwordInputLayout)
+            validate(binding.emailInputLayout)
+            validate(binding.usernameInputLayout)
         }
+    }
+
+    private fun validate(textInputLayout: TextInputLayout) {
+        val validator = textInputLayout.validator()
+        val field = textInputLayout.editText!!.text.toString()
+        val error = validator.validate(field)
+
+        if (error == null) {
+            textInputLayout.error = null
+            textInputLayout.isErrorEnabled = false
+        } else {
+            textInputLayout.error = getString(error)
+        }
+    }
+
+    private fun TextInputLayout.validator() = when (this) {
+        binding.usernameInputLayout -> UsernameValidator()
+        binding.emailInputLayout -> EmailValidator()
+        binding.passwordInputLayout -> PasswordValidator()
+        else -> throw IllegalArgumentException("No validators are specified for the given TextInputLayout")
     }
 }

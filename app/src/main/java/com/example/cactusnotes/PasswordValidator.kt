@@ -1,14 +1,14 @@
 package com.example.cactusnotes
 
-class PasswordValidator {
-    fun validate(password: String) = when {
-        password.isBlank() -> R.string.password_is_required
-        password.length < 8 -> R.string.password_too_short
-        password.length > 39 -> R.string.password_too_long
-        !password.containsLowerCase()
-                || !password.containsDigit()
-                || !password.containsUpperCase()
-                || !password.containsSpecialChars() -> R.string.password_must_contain
+class PasswordValidator: Validator {
+    override fun validate(field: String) = when {
+        field.isBlank() -> R.string.password_is_required
+        field.length < 8 -> R.string.password_too_short
+        field.length > 39 -> R.string.password_too_long
+        !field.containsLowerCase()
+                || !field.containsDigit()
+                || !field.containsUpperCase()
+                || !field.containsSpecialChars() -> R.string.password_must_contain
         else -> null
     }
 
