@@ -12,7 +12,7 @@ class SignupActivity : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = getString(R.string.tool_bar_name)
+        supportActionBar?.title = getString(R.string.sign_up_tool_bar_name)
 
         binding.signUpButton.setOnClickListener {
             val username = binding.usernameInputLayout.editText!!.text.toString()
@@ -28,46 +28,22 @@ class SignupActivity : AppCompatActivity() {
                 binding.passwordInputLayout.error = getString(passwordError)
             }
 
-            when {
-                email == "" -> {
-                    binding.emailInputLayout.error = getString(R.string.e_mail_required)
-                }
-                !email.contains("@") && !email.contains(".") -> {
-                    binding.emailInputLayout.error = getString(R.string.e_mail_invalid)
-                }
-                !email.contains(".") -> {
-                    binding.emailInputLayout.error = getString(R.string.e_mail_invalid)
-                }
-                email.length < 6 -> {
-                    binding.emailInputLayout.error = getString(R.string.e_mail_invalid)
-                }
-                email.length > 49 -> {
-                    binding.emailInputLayout.error = getString(R.string.e_mail_invalid)
-                }
-                else -> {
-                    binding.emailInputLayout.error = null
-                    binding.emailInputLayout.isErrorEnabled = false
-                }
+            val emailValidator = EmailValidator()
+            val emailError = emailValidator.validate(email)
+            if (emailError == null) {
+                binding.emailInputLayout.error = null
+                binding.emailInputLayout.isErrorEnabled = false
+            } else {
+                binding.emailInputLayout.error = getString(emailError)
             }
 
-            when {
-                username == "" -> {
-                    binding.usernameInputLayout.error = getString(R.string.username_is_required)
-                }
-                username.length < 3 -> {
-                    binding.usernameInputLayout.error = getString(R.string.username_too_short)
-                }
-                username.length > 19 -> {
-                    binding.usernameInputLayout.error = getString(R.string.username_too_long)
-                }
-                !username.all { it.isLowerCase() || it.isDigit() || it == '_' } -> {
-                    binding.usernameInputLayout.error =
-                        getString(R.string.username_can_only_include)
-                }
-                else -> {
-                    binding.usernameInputLayout.error = null
-                    binding.usernameInputLayout.isErrorEnabled = false
-                }
+            val usernameValidator = UsernameValidator()
+            val usernameError = usernameValidator.validate(username)
+            if (usernameError == null) {
+                binding.usernameInputLayout.error = null
+                binding.usernameInputLayout.isErrorEnabled = false
+            } else {
+                binding.usernameInputLayout.error = getString(usernameError)
             }
         }
     }
