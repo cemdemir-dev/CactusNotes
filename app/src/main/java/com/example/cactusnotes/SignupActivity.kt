@@ -4,10 +4,19 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cactusnotes.databinding.ActivitySignupBinding
 import com.google.android.material.textfield.TextInputLayout
-import java.lang.IllegalArgumentException
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
+
+    val api: SignupAPI by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://apps.cactus.school")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(SignupAPI::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +30,7 @@ class SignupActivity : AppCompatActivity() {
             validate(binding.emailInputLayout)
             validate(binding.usernameInputLayout)
         }
+        api.register(RegisterRequest())
     }
 
     private fun validate(textInputLayout: TextInputLayout) {
