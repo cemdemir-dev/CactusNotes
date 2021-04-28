@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cactusnotes.databinding.ActivitySignupBinding
 import com.google.android.material.textfield.TextInputLayout
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -26,14 +29,16 @@ class SignupActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.sign_up_tool_bar_name)
 
         binding.signUpButton.setOnClickListener {
-            validate(binding.passwordInputLayout)
-            validate(binding.emailInputLayout)
-            validate(binding.usernameInputLayout)
+            if (validate(binding.emailInputLayout)
+                and validate(binding.passwordInputLayout)
+                and validate(binding.usernameInputLayout)
+            ) {
+                sendRegisterRequest()
+            }
         }
-        api.register(RegisterRequest())
     }
 
-    private fun validate(textInputLayout: TextInputLayout) {
+    private fun validate(textInputLayout: TextInputLayout): Boolean {
         val validator = textInputLayout.validator()
         val field = textInputLayout.editText!!.text.toString()
         val error = validator.validate(field)
@@ -41,8 +46,10 @@ class SignupActivity : AppCompatActivity() {
         if (error == null) {
             textInputLayout.error = null
             textInputLayout.isErrorEnabled = false
+            return true
         } else {
             textInputLayout.error = getString(error)
+            return false
         }
     }
 
@@ -51,5 +58,28 @@ class SignupActivity : AppCompatActivity() {
         binding.emailInputLayout -> EmailValidator()
         binding.passwordInputLayout -> PasswordValidator()
         else -> throw IllegalArgumentException("No validators are specified for the given TextInputLayout")
+    }
+
+    fun sendRegisterRequest() {
+        val request = RegisterRequest(
+            binding.emailInputLayout.editText!!.text.toString(),
+            binding.usernameInputLayout.editText!!.text.toString(),
+            binding.passwordInputLayout.editText!!.text.toString()
+        )
+
+        api.register(request).enqueue(object : Callback<RegisterResponse> {
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                println("onResponse")
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+
+                Snackbar.make(binding., R.string.text_label, Snackbar.LENGTH_SHORT)
+                    .show()
+            }
+        })
     }
 }

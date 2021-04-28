@@ -16,4 +16,6 @@
     <string name="username_too_long">Username is too long.</string>
     <string name="username_can_only_include">Username can only include a-z, 0-9 and _ characters.</string>
     <string name="sign_up">SIGN UP</string>
+    <string name="some_error_occurred">Some error occurred. Please try again later.</string>
+    <string name="couldnt_connect_to_servers">Couldn’t connect to the servers. Please check your connection.</string>
 </resources>

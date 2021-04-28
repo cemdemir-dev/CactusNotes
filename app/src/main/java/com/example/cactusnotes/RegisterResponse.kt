@@ -1,4 +1,3 @@
 package com.example.cactusnotes
 
-class RegisterResponse {
-}
+data class RegisterResponse(val jwt: String)
