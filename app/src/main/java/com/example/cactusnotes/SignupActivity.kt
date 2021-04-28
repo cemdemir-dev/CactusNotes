@@ -1,14 +1,17 @@
 package com.example.cactusnotes
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cactusnotes.databinding.ActivitySignupBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.text.Typography.registered
 
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
@@ -72,14 +75,39 @@ class SignupActivity : AppCompatActivity() {
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
-                println("onResponse")
+                when(response.code()) {
+                    in 200..299 -> registerSuccess()
+                    in 400..499 -> clientSideError(response)
+                    in 500..599 -> serverSideError()
+                    else -> Log.e("SignupActivity", "Unexpected error code")
+                }
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-
-                Snackbar.make(binding., R.string.text_label, Snackbar.LENGTH_SHORT)
-                    .show()
+                Snackbar.make(
+                    binding.signUpButton,
+                    R.string.couldnt_connect_to_servers,
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         })
     }
+
+    private fun registerSuccess() {
+        Snackbar.make(
+            binding.signUpButton,
+            R.string.registered,
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
+
+    private fun clientSideError(response: Response<RegisterResponse>) {
+
+    }
+
+
+    private fun serverSideError() {
+
+    }
+
 }
