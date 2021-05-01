@@ -1,3 +1,5 @@
 package com.example.cactusnotes
 
-data class RegisterResponse(val jwt: String)
+data class RegisterResponse(
+    val jwt: String
+)

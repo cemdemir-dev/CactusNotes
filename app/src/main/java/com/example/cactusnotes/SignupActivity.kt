@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.cactusnotes.databinding.ActivitySignupBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.text.Typography.registered
 
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
@@ -102,12 +102,26 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun clientSideError(response: Response<RegisterResponse>) {
+        val responseObj = JSONObject(response.errorBody()!!.string())
 
+        val clientSideErrorMessage = responseObj.getJSONArray("message")
+            .getJSONObject(0)
+            .getJSONArray("messages")
+            .getJSONObject(0)
+            .getString("message")
+
+        Snackbar.make(
+            binding.signUpButton,
+            clientSideErrorMessage,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
-
 
     private fun serverSideError() {
-
+        Snackbar.make(
+            binding.signUpButton,
+            R.string.some_error_occurred,
+            Snackbar.LENGTH_LONG
+        ).show()
     }
-
 }
