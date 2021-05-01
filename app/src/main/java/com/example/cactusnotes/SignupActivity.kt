@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
 
-    val api: SignupAPI by lazy {
+    private val api: SignupAPI by lazy {
         Retrofit.Builder()
             .baseUrl("https://apps.cactus.school")
             .addConverterFactory(GsonConverterFactory.create())
@@ -46,13 +46,13 @@ class SignupActivity : AppCompatActivity() {
         val field = textInputLayout.editText!!.text.toString()
         val error = validator.validate(field)
 
-        if (error == null) {
+        return if (error == null) {
             textInputLayout.error = null
             textInputLayout.isErrorEnabled = false
-            return true
+            true
         } else {
             textInputLayout.error = getString(error)
-            return false
+            false
         }
     }
 
@@ -63,7 +63,7 @@ class SignupActivity : AppCompatActivity() {
         else -> throw IllegalArgumentException("No validators are specified for the given TextInputLayout")
     }
 
-    fun sendRegisterRequest() {
+    private fun sendRegisterRequest() {
         val request = RegisterRequest(
             binding.emailInputLayout.editText!!.text.toString(),
             binding.usernameInputLayout.editText!!.text.toString(),
