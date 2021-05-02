@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Cactus Notes</string>
     <string name="sign_up_tool_bar_name">Sign up</string>
+    <string name="login_tool_bar_name">Log in</string>
     <string name="already_have_an_account">ALREADY HAVE AN ACCOUNT?</string>
+    <string name="create_an_account">CREATE AN ACCOUNT</string>
     <string name="e_mail">E-mail</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="e_mail_or_username">E-mail or Username</string>
     <string name="password_too_short">Password is too short.</string>
     <string name="password_too_long">Password is too long.</string>
     <string name="password_is_required">Password is required.</string>
@@ -16,7 +19,9 @@
     <string name="username_too_long">Username is too long.</string>
     <string name="username_can_only_include">Username can only include a-z, 0-9 and _ characters.</string>
     <string name="sign_up">SIGN UP</string>
+    <string name="log_in">LOG IN</string>
     <string name="some_error_occurred">Some error occurred. Please try again later.</string>
     <string name="couldnt_connect_to_servers">Couldn’t connect to the servers. Please check your connection.</string>
     <string name="registered">You are registered now.</string>
+    <string name="e_mail_or_username_required">Email or username is required.</string>
 </resources>
