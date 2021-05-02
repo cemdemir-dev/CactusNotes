@@ -1,6 +1,9 @@
-package com.example.cactusnotes
+package com.example.cactusnotes.signup.validation
 
-class UsernameValidator : Validator{
+import com.example.cactusnotes.R
+import com.example.cactusnotes.validation.Validator
+
+class UsernameValidator : Validator {
     override fun validate(field: String) = when {
         field == "" -> R.string.username_is_required
         field.length < 3 -> R.string.username_too_short

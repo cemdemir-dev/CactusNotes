@@ -1,6 +1,9 @@
-package com.example.cactusnotes
+package com.example.cactusnotes.signup.validation
 
-class PasswordValidator: Validator {
+import com.example.cactusnotes.R
+import com.example.cactusnotes.validation.Validator
+
+class PasswordValidator : Validator {
     override fun validate(field: String) = when {
         field.isBlank() -> R.string.password_is_required
         field.length < 8 -> R.string.password_too_short

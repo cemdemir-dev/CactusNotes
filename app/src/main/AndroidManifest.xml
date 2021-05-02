@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CactusNotes">
         <activity
-            android:name=".SignupActivity"
+            android:name=".signup.SignupActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

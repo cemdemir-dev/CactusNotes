@@ -1,9 +1,16 @@
-package com.example.cactusnotes
+package com.example.cactusnotes.signup
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cactusnotes.R
+import com.example.cactusnotes.api.NotesApi
 import com.example.cactusnotes.databinding.ActivitySignupBinding
+import com.example.cactusnotes.signup.data.RegisterRequest
+import com.example.cactusnotes.signup.data.RegisterResponse
+import com.example.cactusnotes.signup.validation.EmailValidator
+import com.example.cactusnotes.signup.validation.PasswordValidator
+import com.example.cactusnotes.signup.validation.UsernameValidator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import org.json.JSONObject
@@ -16,12 +23,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
 
-    private val api: SignupAPI by lazy {
+    private val api: NotesApi by lazy {
         Retrofit.Builder()
             .baseUrl("https://apps.cactus.school")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(SignupAPI::class.java)
+            .create(NotesApi::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
