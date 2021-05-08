@@ -1,11 +1,13 @@
 package com.example.cactusnotes.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cactusnotes.R
 import com.example.cactusnotes.databinding.ActivityLoginBinding
 import com.example.cactusnotes.login.validation.NotEmptyValidator
-import com.google.android.material.textfield.TextInputLayout
+import com.example.cactusnotes.signup.SignupActivity
+import com.example.cactusnotes.validation.validate
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
@@ -20,34 +22,19 @@ class LoginActivity : AppCompatActivity() {
 
         supportActionBar?.title = getString(R.string.login_tool_bar_name)
 
-        binding.loginButton.setOnClickListener {
-            if (validate(binding.identifierInputLayout)
-                and validate(binding.passwordInputLayout)
-            ) {
-                // sendLoginRequest()
+        binding.apply {
+            loginButton.setOnClickListener {
+                if (identifierInputLayout.validate(identifierValidator)
+                    and passwordInputLayout.validate(passwordValidator)
+                ) {
+                    // sendLoginRequest()
+                }
+            }
+
+            createAccountButton.setOnClickListener {
+                val intent = Intent(this@LoginActivity, SignupActivity::class.java)
+                startActivity(intent)
             }
         }
     }
-
-    private fun validate(textInputLayout: TextInputLayout): Boolean {
-        val validator = textInputLayout.validator()
-        val field = textInputLayout.editText!!.text.toString()
-        val error = validator.validate(field)
-
-        return if (error == null) {
-            textInputLayout.error = null
-            textInputLayout.isErrorEnabled = false
-            true
-        } else {
-            textInputLayout.error = getString(error)
-            false
-        }
-    }
-
-    private fun TextInputLayout.validator() = when (this) {
-        binding.identifierInputLayout -> identifierValidator
-        binding.passwordInputLayout -> passwordValidator
-        else -> throw IllegalArgumentException("No validators are specified for the given TextInputLayout")
-    }
-
 }
