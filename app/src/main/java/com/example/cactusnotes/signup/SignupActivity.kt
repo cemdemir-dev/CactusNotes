@@ -1,11 +1,20 @@
-package com.example.cactusnotes
+package com.example.cactusnotes.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cactusnotes.R
+import com.example.cactusnotes.api.NotesApi
 import com.example.cactusnotes.databinding.ActivitySignupBinding
+import com.example.cactusnotes.login.LoginActivity
+import com.example.cactusnotes.signup.data.RegisterRequest
+import com.example.cactusnotes.signup.data.RegisterResponse
+import com.example.cactusnotes.signup.validation.EmailValidator
+import com.example.cactusnotes.signup.validation.PasswordValidator
+import com.example.cactusnotes.signup.validation.UsernameValidator
+import com.example.cactusnotes.validation.validate
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputLayout
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,12 +25,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
 
-    private val api: SignupAPI by lazy {
+    private val api: NotesApi by lazy {
         Retrofit.Builder()
             .baseUrl("https://apps.cactus.school")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(SignupAPI::class.java)
+            .create(NotesApi::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,36 +40,22 @@ class SignupActivity : AppCompatActivity() {
 
         supportActionBar?.title = getString(R.string.sign_up_tool_bar_name)
 
-        binding.signUpButton.setOnClickListener {
-            if (validate(binding.emailInputLayout)
-                and validate(binding.passwordInputLayout)
-                and validate(binding.usernameInputLayout)
-            ) {
-                sendRegisterRequest()
+        binding.apply {
+            signUpButton.setOnClickListener {
+                val isAllValid = emailInputLayout.validate(EmailValidator()) and
+                        passwordInputLayout.validate(PasswordValidator()) and
+                        usernameInputLayout.validate(UsernameValidator())
+
+                if (isAllValid) {
+                    sendRegisterRequest()
+                }
+            }
+
+            alreadyHaveAnAccountButton.setOnClickListener {
+                val intent = Intent(this@SignupActivity, LoginActivity::class.java)
+                startActivity(intent)
             }
         }
-    }
-
-    private fun validate(textInputLayout: TextInputLayout): Boolean {
-        val validator = textInputLayout.validator()
-        val field = textInputLayout.editText!!.text.toString()
-        val error = validator.validate(field)
-
-        return if (error == null) {
-            textInputLayout.error = null
-            textInputLayout.isErrorEnabled = false
-            true
-        } else {
-            textInputLayout.error = getString(error)
-            false
-        }
-    }
-
-    private fun TextInputLayout.validator() = when (this) {
-        binding.usernameInputLayout -> UsernameValidator()
-        binding.emailInputLayout -> EmailValidator()
-        binding.passwordInputLayout -> PasswordValidator()
-        else -> throw IllegalArgumentException("No validators are specified for the given TextInputLayout")
     }
 
     private fun sendRegisterRequest() {
@@ -75,7 +70,7 @@ class SignupActivity : AppCompatActivity() {
                 call: Call<RegisterResponse>,
                 response: Response<RegisterResponse>
             ) {
-                when(response.code()) {
+                when (response.code()) {
                     in 200..299 -> registerSuccess()
                     in 400..499 -> clientSideError(response)
                     in 500..599 -> serverSideError()

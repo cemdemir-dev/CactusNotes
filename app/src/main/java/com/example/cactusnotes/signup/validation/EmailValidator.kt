@@ -1,4 +1,7 @@
-package com.example.cactusnotes
+package com.example.cactusnotes.signup.validation
+
+import com.example.cactusnotes.R
+import com.example.cactusnotes.validation.Validator
 
 class EmailValidator : Validator {
     override fun validate(field: String) = when {
