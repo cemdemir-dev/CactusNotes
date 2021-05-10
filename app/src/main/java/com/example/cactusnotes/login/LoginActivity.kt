@@ -4,30 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cactusnotes.R
-import com.example.cactusnotes.api.NotesApi
+import com.example.cactusnotes.api.api
 import com.example.cactusnotes.databinding.ActivityLoginBinding
 import com.example.cactusnotes.login.data.LoginRequest
 import com.example.cactusnotes.login.data.LoginResponse
 import com.example.cactusnotes.login.validation.NotEmptyValidator
 import com.example.cactusnotes.signup.SignupActivity
+import com.example.cactusnotes.userstore.UserStore
 import com.example.cactusnotes.validation.validate
 import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
-
-    private val api: NotesApi by lazy {
-        Retrofit.Builder()
-            .baseUrl("https://apps.cactus.school")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(NotesApi::class.java)
-    }
 
     private val passwordValidator = NotEmptyValidator(R.string.password_is_required)
     private val identifierValidator = NotEmptyValidator(R.string.e_mail_or_username_required)
@@ -61,18 +52,30 @@ class LoginActivity : AppCompatActivity() {
             binding.passwordInputLayout.editText!!.text.toString()
         )
 
-        api.register(request).enqueue(object : Callback<LoginResponse> {
+        api.login(request).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(
                 call: Call<LoginResponse>,
                 response: Response<LoginResponse>
             ) {
                 when (response.code()) {
+                    200 -> onSuccess(response.body()!!)
                     400 -> badRequest()
                 }
             }
-        }
-        )
 
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Snackbar.make(
+                    binding.root,
+                    R.string.couldnt_connect_to_servers,
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        })
+    }
+
+    private fun onSuccess(response: LoginResponse) {
+        val store = UserStore(this)
+        store.saveJwt(response.jwt)
     }
 
     private fun badRequest() {
