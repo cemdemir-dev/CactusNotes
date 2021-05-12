@@ -4,12 +4,13 @@ import com.example.cactusnotes.userstore.UserStore
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class AuthInterceptor : Interceptor {
+class AuthInterceptor(private val userStore: UserStore) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
+        val jwt = userStore.loadJwt()
 
-        val jwt = "ghvbjknlşjhbgvbjknlmkmgh"
-
-        val store = UserStore()
+        if (jwt == null || chain.request().url.pathSegments[0] == "auth") {
+            return chain.proceed(chain.request())
+        }
 
         val request = chain.request()
             .newBuilder()

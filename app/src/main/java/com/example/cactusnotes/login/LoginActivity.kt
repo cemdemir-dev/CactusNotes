@@ -76,6 +76,8 @@ class LoginActivity : AppCompatActivity() {
     private fun onSuccess(response: LoginResponse) {
         val store = UserStore(this)
         store.saveJwt(response.jwt)
+
+        // TODO: navigate to note list
     }
 
     private fun badRequest() {
