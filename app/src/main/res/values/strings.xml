@@ -24,4 +24,5 @@
     <string name="couldnt_connect_to_servers">Couldn’t connect to the servers. Please check your connection.</string>
     <string name="registered">You are registered now.</string>
     <string name="e_mail_or_username_required">Email or username is required.</string>
+    <string name="invalid_credentials">Invalid credentials. Please double-check your e-mail, username or password.</string>
 </resources>

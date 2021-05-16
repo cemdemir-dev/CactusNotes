@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cactusnotes.R
-import com.example.cactusnotes.api.NotesApi
+import com.example.cactusnotes.api.api
 import com.example.cactusnotes.databinding.ActivitySignupBinding
 import com.example.cactusnotes.login.LoginActivity
 import com.example.cactusnotes.signup.data.RegisterRequest
@@ -13,25 +13,16 @@ import com.example.cactusnotes.signup.data.RegisterResponse
 import com.example.cactusnotes.signup.validation.EmailValidator
 import com.example.cactusnotes.signup.validation.PasswordValidator
 import com.example.cactusnotes.signup.validation.UsernameValidator
+import com.example.cactusnotes.userstore.UserStore
 import com.example.cactusnotes.validation.validate
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
-
-    private val api: NotesApi by lazy {
-        Retrofit.Builder()
-            .baseUrl("https://apps.cactus.school")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(NotesApi::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +62,7 @@ class SignupActivity : AppCompatActivity() {
                 response: Response<RegisterResponse>
             ) {
                 when (response.code()) {
-                    in 200..299 -> registerSuccess()
+                    in 200..299 -> registerSuccess(response.body()!!)
                     in 400..499 -> clientSideError(response)
                     in 500..599 -> serverSideError()
                     else -> Log.e("SignupActivity", "Unexpected error code")
@@ -88,7 +79,13 @@ class SignupActivity : AppCompatActivity() {
         })
     }
 
-    private fun registerSuccess() {
+    private fun registerSuccess(response: RegisterResponse) {
+        val store = UserStore(this)
+        store.saveJwt(response.jwt)
+
+        // TODO: navigate to note list
+        // TODO: don't show snackbar
+
         Snackbar.make(
             binding.signUpButton,
             R.string.registered,
