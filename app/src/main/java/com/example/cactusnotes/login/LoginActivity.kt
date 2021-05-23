@@ -9,6 +9,7 @@ import com.example.cactusnotes.databinding.ActivityLoginBinding
 import com.example.cactusnotes.login.data.LoginRequest
 import com.example.cactusnotes.login.data.LoginResponse
 import com.example.cactusnotes.login.validation.NotEmptyValidator
+import com.example.cactusnotes.notes.NotesListActivity
 import com.example.cactusnotes.signup.SignupActivity
 import com.example.cactusnotes.userstore.UserStore
 import com.example.cactusnotes.validation.validate
@@ -78,6 +79,8 @@ class LoginActivity : AppCompatActivity() {
         store.saveJwt(response.jwt)
 
         // TODO: navigate to note list
+        val intent = Intent(this@LoginActivity, NotesListActivity::class.java)
+        startActivity(intent)
     }
 
     private fun badRequest() {

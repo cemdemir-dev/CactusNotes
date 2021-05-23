@@ -27,6 +27,8 @@
             android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity android:name=".notes.NotesListActivity" />
+
     </application>
 
 </manifest>
