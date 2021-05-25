@@ -6,10 +6,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cactusnotes.R
 
 class NotesAdapter : RecyclerView.Adapter<NotesHolder>() {
-    private val notes: List<Notes> = listOf(
-        Notes("Kapı kolu", "Tamir edilecek."),
-        Notes("Ödev", "Recyclerview ödevini unutma"),
-        Notes("Market Eksikler", "meyve, sebze, peynir"),
+    private val notes: List<Note> = listOf(
+        Note("Kapı kolu", "Tamir edilecek."),
+        Note("Ödev", "Recyclerview ödevini unutma"),
+        Note("Market Eksikler", "meyve, sebze, peynir, meyve, sebze, peynir,".repeat(30)),
+        Note("Kapı kolu", "Tamir edilecek."),
+        Note("Ödev", "Recyclerview ödevini unutma"),
+        Note("Market Eksikler", "meyve, sebze, peynir, meyve, sebze, peynir,".repeat(30)),
+        Note("Kapı kolu", "Tamir edilecek."),
+        Note("Ödev", "Recyclerview ödevini unutma"),
+        Note("Market Eksikler", "meyve, sebze, peynir, meyve, sebze, peynir,".repeat(30)),
+        Note("Kapı kolu", "Tamir edilecek."),
+        Note("Ödev", "Recyclerview ödevini unutma"),
+        Note("Market Eksikler", "meyve, sebze, peynir, meyve, sebze, peynir,".repeat(30)),
+        Note("Kapı kolu", "Tamir edilecek."),
+        Note("Ödev", "Recyclerview ödevini unutma"),
+        Note("Market Eksikler", "meyve, sebze, peynir, meyve, sebze, peynir,".repeat(30)),
+        Note("Kapı kolu", "Tamir edilecek."),
+        Note("Ödev", "Recyclerview ödevini unutma"),
+        Note("Market Eksikler", "meyve, sebze, peynir, meyve, sebze, peynir,".repeat(30)),
+        Note("Kapı kolu", "Tamir edilecek."),
+        Note("Ödev", "Recyclerview ödevini unutma"),
+        Note("Market Eksikler", "meyve, sebze, peynir, meyve, sebze, peynir,".repeat(30)),
+        Note("Kapı kolu", "Tamir edilecek."),
+        Note("Ödev", "Recyclerview ödevini unutma"),
+        Note("Market Eksikler", "meyve, sebze, peynir, meyve, sebze, peynir,".repeat(30)),
+        Note("Kapı kolu", "Tamir edilecek."),
+        Note("Ödev", "Recyclerview ödevini unutma"),
+        Note("Market Eksikler", "meyve, sebze, peynir, meyve, sebze, peynir,".repeat(30)),
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesHolder {

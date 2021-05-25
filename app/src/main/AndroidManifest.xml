@@ -14,20 +14,20 @@
         <activity
             android:name=".signup.SignupActivity"
             android:launchMode="singleInstance"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
 
         <activity
             android:name=".login.LoginActivity"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name=".notes.NotesListActivity" />
+        <activity android:name=".notes.NotesListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 

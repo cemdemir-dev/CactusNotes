@@ -1,46 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="156dp"
-    android:layout_height="156dp"
-    android:padding="8dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
-        android:layout_width="156dp"
-        android:layout_height="156dp">
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/note_card_stroke_color"
+    android:minHeight="100dp"
+    app:strokeWidth="1dp">
 
-        <LinearLayout
+    <LinearLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Title and Content -->
+        <TextView
+            android:id="@+id/noteTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Remember"
+            android:textColor="#DE000000" />
 
-            <!-- Title and Content -->
-            <TextView
-                android:id="@+id/noteTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="2dp"
-                android:text="Remember"
-                android:textColor="#DE000000" />
-
-            <TextView
-                android:id="@+id/noteContent"
-                android:layout_width="119dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="13dp"
-                android:layout_marginRight="13dp"
-                android:layout_marginBottom="2dp"
-                android:text="Doing is important"
-                android:textColor="#DE000000" />
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-</RelativeLayout>
+        <TextView
+            android:id="@+id/noteContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginTop="4dp"
+            android:maxLines="10"
+            android:ellipsize="end"
+            android:text="Doing is important"
+            android:textColor="#DE000000" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

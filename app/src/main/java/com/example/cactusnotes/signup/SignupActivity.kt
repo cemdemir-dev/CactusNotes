@@ -26,6 +26,9 @@ class SignupActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // TODO: check jwtstore.jwt is not null and redirect to notelist screen
+
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
