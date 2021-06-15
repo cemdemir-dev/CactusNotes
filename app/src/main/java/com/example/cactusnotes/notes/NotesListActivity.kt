@@ -65,8 +65,7 @@ class NotesListActivity : AppCompatActivity() {
                 Snackbar.make(
                     binding.root,
                     getString(R.string.couldnt_connect_to_servers), Snackbar.LENGTH_LONG
-                )
-                    .show()
+                ).show()
             }
 
             SUCCESS -> {

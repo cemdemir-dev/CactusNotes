@@ -8,6 +8,7 @@ import com.example.cactusnotes.R
 import com.example.cactusnotes.api.api
 import com.example.cactusnotes.databinding.ActivitySignupBinding
 import com.example.cactusnotes.login.LoginActivity
+import com.example.cactusnotes.notes.NotesListActivity
 import com.example.cactusnotes.signup.data.RegisterRequest
 import com.example.cactusnotes.signup.data.RegisterResponse
 import com.example.cactusnotes.signup.validation.EmailValidator
@@ -24,10 +25,15 @@ import retrofit2.Response
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
 
+    private val store = UserStore(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // TODO: check jwtstore.jwt is not null and redirect to notelist screen
+        if (store.loadJwt() != null) {
+            navigateToNoteList()
+            return
+        }
 
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -83,17 +89,13 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun registerSuccess(response: RegisterResponse) {
-        val store = UserStore(this)
         store.saveJwt(response.jwt)
+        navigateToNoteList()
+    }
 
-        // TODO: navigate to note list
-        // TODO: don't show snackbar
-
-        Snackbar.make(
-            binding.signUpButton,
-            R.string.registered,
-            Snackbar.LENGTH_LONG
-        ).show()
+    private fun navigateToNoteList() {
+        val intent = Intent(this@SignupActivity, NotesListActivity::class.java)
+        startActivity(intent)
     }
 
     private fun clientSideError(response: Response<RegisterResponse>) {

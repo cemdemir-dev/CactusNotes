@@ -78,7 +78,6 @@ class LoginActivity : AppCompatActivity() {
         val store = UserStore(this)
         store.saveJwt(response.jwt)
 
-        // TODO: navigate to note list
         val intent = Intent(this@LoginActivity, NotesListActivity::class.java)
         startActivity(intent)
     }
