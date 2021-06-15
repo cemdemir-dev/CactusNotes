@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.cactusnotes.R
 import com.example.cactusnotes.databinding.ActivityNotesListBinding
+import com.google.android.material.snackbar.Snackbar
 
 class NotesListActivity : AppCompatActivity() {
 
@@ -44,6 +45,7 @@ class NotesListActivity : AppCompatActivity() {
                 binding.recyclerView.isVisible = false
                 binding.emptyText.isVisible = false
                 binding.statusImage.isVisible = false
+
             }
 
             EMPTY -> {
@@ -60,6 +62,11 @@ class NotesListActivity : AppCompatActivity() {
                 binding.emptyText.isVisible = false
                 binding.statusImage.isVisible = true
                 binding.statusImage.setImageResource(R.drawable.ic_cactus_gray)
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.couldnt_connect_to_servers), Snackbar.LENGTH_LONG
+                )
+                    .show()
             }
 
             SUCCESS -> {
