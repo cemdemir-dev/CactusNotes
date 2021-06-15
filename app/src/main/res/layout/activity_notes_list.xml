@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0F0"
+    tools:context=".notes.NotesListActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            tools:listitem="@layout/item_note"
+            tools:visibility="invisible"
+            tools:spanCount="2" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:visibility="invisible"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/statusImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/ic_cactus_green"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/emptyText"
+                android:layout_width="200dp"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/you_dont_have_any_notes" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_plus" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

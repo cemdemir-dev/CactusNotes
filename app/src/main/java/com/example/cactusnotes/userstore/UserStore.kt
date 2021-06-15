@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.core.content.edit
 
-class UserStore(context: Context) {
-    private val prefs = context.getSharedPreferences("user_store", MODE_PRIVATE)
+class UserStore(private val context: Context) {
+    private val prefs get() = context.getSharedPreferences("user_store", MODE_PRIVATE)
 
     fun saveJwt(jwt: String) {
         prefs.edit(commit = true) {
