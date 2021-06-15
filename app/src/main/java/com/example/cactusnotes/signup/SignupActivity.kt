@@ -96,6 +96,7 @@ class SignupActivity : AppCompatActivity() {
     private fun navigateToNoteList() {
         val intent = Intent(this@SignupActivity, NotesListActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun clientSideError(response: Response<RegisterResponse>) {

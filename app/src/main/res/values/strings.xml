@@ -26,4 +26,5 @@
     <string name="e_mail_or_username_required">Email or username is required.</string>
     <string name="invalid_credentials">Invalid credentials. Please double-check your e-mail, username or password.</string>
     <string name="you_dont_have_any_notes">You don’t have any notes. Click below button to add one!</string>
+    <string name="log_out">Log out</string>
 </resources>
