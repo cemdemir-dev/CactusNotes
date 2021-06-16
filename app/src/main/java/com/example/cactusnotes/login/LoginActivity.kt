@@ -80,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
         val intent = Intent(this@LoginActivity, NotesListActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun badRequest() {

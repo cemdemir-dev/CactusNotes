@@ -1,16 +1,23 @@
 package com.example.cactusnotes.notes
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.cactusnotes.R
 import com.example.cactusnotes.databinding.ActivityNotesListBinding
+import com.example.cactusnotes.login.LoginActivity
+import com.example.cactusnotes.userstore.UserStore
 import com.google.android.material.snackbar.Snackbar
 
 class NotesListActivity : AppCompatActivity() {
 
-    var stateIndex = LOADING
+    private var stateIndex = LOADING
+
+    private var store = UserStore(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +35,30 @@ class NotesListActivity : AppCompatActivity() {
             incrementState()
             updateUI(binding)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.item_logout -> {
+            logOut()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun logOut() {
+        store.deleteJwt()
+        navigateToLogin()
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun incrementState() {
