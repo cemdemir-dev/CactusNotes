@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.cactusnotes.R
+import com.example.cactusnotes.api.api
 import com.example.cactusnotes.databinding.ActivityNotesListBinding
 import com.example.cactusnotes.login.LoginActivity
 import com.example.cactusnotes.userstore.UserStore
@@ -35,6 +36,7 @@ class NotesListActivity : AppCompatActivity() {
             incrementState()
             updateUI(binding)
         }
+        api.fetchNotes()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,6 +56,7 @@ class NotesListActivity : AppCompatActivity() {
         store.deleteJwt()
         navigateToLogin()
     }
+
 
     private fun navigateToLogin() {
         val intent = Intent(this, LoginActivity::class.java)
