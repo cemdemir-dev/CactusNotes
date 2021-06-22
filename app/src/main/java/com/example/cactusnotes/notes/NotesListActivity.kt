@@ -11,32 +11,32 @@ import com.example.cactusnotes.R
 import com.example.cactusnotes.api.api
 import com.example.cactusnotes.databinding.ActivityNotesListBinding
 import com.example.cactusnotes.login.LoginActivity
+import com.example.cactusnotes.notes.data.NoteResponse
 import com.example.cactusnotes.userstore.UserStore
 import com.google.android.material.snackbar.Snackbar
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class NotesListActivity : AppCompatActivity() {
 
-    private var stateIndex = LOADING
-
     private var store = UserStore(this)
+
+    lateinit var binding: ActivityNotesListBinding
+
+    private val notesAdapter = NotesAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityNotesListBinding.inflate(layoutInflater)
+        binding = ActivityNotesListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recyclerView.adapter = NotesAdapter()
+        binding.recyclerView.adapter = notesAdapter
         binding.recyclerView.addItemDecoration(NoteItemDecoration())
         binding.recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-        updateUI(binding)
-
-        binding.floatingActionButton.setOnClickListener {
-            incrementState()
-            updateUI(binding)
-        }
-        api.fetchNotes()
+        fetchNotes()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -52,11 +52,39 @@ class NotesListActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
+    private fun fetchNotes() {
+        updateUI(LOADING)
+
+        api.readAllNotes().enqueue(object : Callback<List<NoteResponse>> {
+            override fun onResponse(
+                call: Call<List<NoteResponse>>,
+                response: Response<List<NoteResponse>>
+            ) {
+                when (response.code()) {
+                    200 -> onSuccessfulResponse(response.body()!!)
+                }
+            }
+
+            override fun onFailure(call: Call<List<NoteResponse>>, t: Throwable) {
+                updateUI(ERROR)
+            }
+        })
+
+    }
+
+    private fun onSuccessfulResponse(notes: List<NoteResponse>) {
+        if (notes.isEmpty()) {
+            updateUI(EMPTY)
+        } else {
+            updateUI(SUCCESS)
+            notesAdapter.submitList(notes)
+        }
+    }
+
     private fun logOut() {
         store.deleteJwt()
         navigateToLogin()
     }
-
 
     private fun navigateToLogin() {
         val intent = Intent(this, LoginActivity::class.java)
@@ -64,16 +92,8 @@ class NotesListActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun incrementState() {
-        stateIndex += 1
-
-        if (stateIndex == 4) {
-            stateIndex = 0
-        }
-    }
-
-    private fun updateUI(binding: ActivityNotesListBinding) {
-        when (stateIndex) {
+    private fun updateUI(state: Int) {
+        when (state) {
             LOADING -> {
                 binding.loadingIndicator.isVisible = true
                 binding.recyclerView.isVisible = false
