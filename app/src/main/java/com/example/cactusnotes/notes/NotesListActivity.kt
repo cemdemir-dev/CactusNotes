@@ -72,13 +72,17 @@ class NotesListActivity : AppCompatActivity() {
 
     }
 
-    private fun onSuccessfulResponse(notes: List<NoteResponse>) {
-        if (notes.isEmpty()) {
+    private fun onSuccessfulResponse(noteListResponse: List<NoteResponse>) {
+        if (noteListResponse.isEmpty()) {
             updateUI(EMPTY)
         } else {
             updateUI(SUCCESS)
-            notesAdapter.submitList(notes)
+            notesAdapter.submitList(noteListResponse.mapToNotes())
         }
+    }
+
+    private fun List<NoteResponse>.mapToNotes() = map {
+        Note(it.title, it.content)
     }
 
     private fun logOut() {

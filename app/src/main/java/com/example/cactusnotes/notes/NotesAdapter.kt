@@ -4,12 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cactusnotes.R
-import com.example.cactusnotes.notes.data.NoteResponse
 
 class NotesAdapter : RecyclerView.Adapter<NotesHolder>() {
     private var notes: List<Note> = listOf()
 
-    fun submitList(noteList: List<NoteResponse>) {
+    fun submitList(noteList: List<Note>) {
         notes = noteList
         notifyDataSetChanged()
     }
