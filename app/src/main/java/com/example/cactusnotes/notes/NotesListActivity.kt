@@ -37,6 +37,10 @@ class NotesListActivity : AppCompatActivity() {
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         fetchNotes()
+
+        binding.floatingActionButton.setOnClickListener {
+            startActivity(Intent(this, EditNoteActivity::class.java))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
