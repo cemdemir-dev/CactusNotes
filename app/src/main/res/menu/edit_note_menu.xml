@@ -4,11 +4,9 @@
     <item
         android:id="@+id/share_button"
         android:icon="@drawable/ic_share"
-        android:title=""
         app:showAsAction="always" />
     <item
         android:id="@+id/delete_button"
         android:icon="@drawable/ic_delete"
-        android:title=""
         app:showAsAction="ifRoom" />
 </menu>

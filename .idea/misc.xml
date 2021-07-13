@@ -13,7 +13,7 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/layout/activity_notes_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/item_note.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/item_note.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_grid_item.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/menu/edit_note_menu.xml" value="0.25" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.17916666666666667" />
