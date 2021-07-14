@@ -27,4 +27,8 @@
     <string name="invalid_credentials">Invalid credentials. Please double-check your e-mail, username or password.</string>
     <string name="you_dont_have_any_notes">You don’t have any notes. Click below button to add one!</string>
     <string name="log_out">Log out</string>
+    <string name="empty_title">Untitled</string>
+    <string name="empty_note">Write something...</string>
+    <string name="cancel">CANCEL</string>
+    <string name="delete">DELETE</string>
 </resources>

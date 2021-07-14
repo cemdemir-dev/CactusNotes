@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="note_card_stroke_color">#1F000000</color>
+    <color name="gray">#E5E5E5</color>
+
 </resources>
