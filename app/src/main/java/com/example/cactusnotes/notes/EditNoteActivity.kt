@@ -31,10 +31,11 @@ class EditNoteActivity : AppCompatActivity() {
             }
             hasSentNoteRequest = true
         }
-
     }
 
-    fun sendNoteRequest() {
+    private fun sendNoteRequest() {
+        setResult(RESULT_OK)
+
         val request = NoteRequest(
             binding.title.text.toString(),
             binding.content.text.toString()

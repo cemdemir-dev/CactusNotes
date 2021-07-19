@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -26,6 +28,13 @@ class NotesListActivity : AppCompatActivity() {
 
     private val notesAdapter = NotesAdapter()
 
+    private val startForResult =
+        registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == RESULT_OK) {
+                fetchNotes()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNotesListBinding.inflate(layoutInflater)
@@ -39,7 +48,8 @@ class NotesListActivity : AppCompatActivity() {
         fetchNotes()
 
         binding.floatingActionButton.setOnClickListener {
-            startActivity(Intent(this, EditNoteActivity::class.java))
+            val intent = Intent(this, EditNoteActivity::class.java)
+            startForResult.launch(intent)
         }
     }
 
