@@ -19,11 +19,9 @@ import retrofit2.Response
 class EditNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditNoteBinding
 
-    private var hasSentCreateNoteRequest = false
-
-    private var hasCreatedNoteSuccessfully = false
-
     private var noteState = NOT_CREATED
+
+    private var note: NoteResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,13 +52,35 @@ class EditNoteActivity : AppCompatActivity() {
     }
 
     private fun scheduleEditNoteRequest() {
+        val request = NoteRequest(
+            title = binding.title.text.toString(),
+            content = binding.content.text.toString()
+        )
+
         Handler(Looper.getMainLooper()).postDelayed({
-            sendEditNoteRequest()
+            sendEditNoteRequest(request)
         }, 300)
     }
 
-    private fun sendEditNoteRequest(noteRequest: NoteRequest) {
-        // TODO
+    private fun sendEditNoteRequest(request: NoteRequest) {
+        val title = binding.title.text.toString()
+        val content = binding.content.text.toString()
+
+        if (request.title != title || request.content != content) return
+
+        api.editNote(request, note!!.id).enqueue(object : Callback<NoteResponse> {
+            override fun onResponse(call: Call<NoteResponse>, response: Response<NoteResponse>) {
+                note = response.body()!!
+            }
+
+            override fun onFailure(call: Call<NoteResponse>, t: Throwable) {
+                Snackbar.make(
+                    binding.root,
+                    R.string.couldnt_connect_to_servers,
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        })
     }
 
     private fun sendCreateNoteRequest() {
@@ -75,8 +95,14 @@ class EditNoteActivity : AppCompatActivity() {
             override fun onResponse(call: Call<NoteResponse>, response: Response<NoteResponse>) {
                 if (response.isSuccessful) {
                     noteState = CREATED
+                    note = response.body()!!
 
-                    // TODO: check if user changed the note, if changed scheduleEdit..
+                    val title = binding.title.text.toString()
+                    val content = binding.content.text.toString()
+
+                    if (note!!.title != title || note!!.content != content) {
+                        scheduleEditNoteRequest()
+                    }
                 } else {
                     noteState = NOT_CREATED
                 }
