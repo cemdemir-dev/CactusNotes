@@ -27,4 +27,8 @@ interface NotesApi {
         @Body editNoteRequest: NoteRequest,
         @Path("noteId") noteId: Int
     ): Call<NoteResponse>
+
+    @DELETE("/notes/{noteId}")
+    fun deleteNote(@Path("noteId") noteId: Int): Call<NoteResponse>
+
 }
