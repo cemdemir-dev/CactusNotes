@@ -26,7 +26,7 @@ class NotesListActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityNotesListBinding
 
-    private val notesAdapter = NotesAdapter()
+    private val notesAdapter = NotesAdapter(::onNoteClick)
 
     private val startForResult =
         registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
@@ -51,6 +51,12 @@ class NotesListActivity : AppCompatActivity() {
             val intent = Intent(this, EditNoteActivity::class.java)
             startForResult.launch(intent)
         }
+    }
+
+    private fun onNoteClick(note: Note) {
+        val intent = Intent(this, EditNoteActivity::class.java)
+        intent.putExtra("note", note)
+        startForResult.launch(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -96,7 +102,11 @@ class NotesListActivity : AppCompatActivity() {
     }
 
     private fun List<NoteResponse>.mapToNotes() = map {
-        Note(it.title, it.content)
+        Note(
+            id = it.id,
+            title = it.title,
+            content = it.content
+        )
     }
 
     private fun logOut() {

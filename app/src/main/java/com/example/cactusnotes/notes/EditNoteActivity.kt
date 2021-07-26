@@ -37,6 +37,16 @@ class EditNoteActivity : AppCompatActivity() {
         binding.content.addTextChangedListener {
             onTextChanged()
         }
+
+        val noteFromIntent: Note? = intent.getSerializableExtra("note") as Note?
+
+        if (noteFromIntent != null) {
+            noteState = CREATED
+            note = noteFromIntent.toNoteResponse()
+
+            binding.title.setText(note!!.title)
+            binding.content.setText(note!!.content)
+        }
     }
 
     private fun onTextChanged() {
@@ -63,6 +73,8 @@ class EditNoteActivity : AppCompatActivity() {
     }
 
     private fun sendEditNoteRequest(request: NoteRequest) {
+        setResult(RESULT_OK)
+
         val title = binding.title.text.toString()
         val content = binding.content.text.toString()
 
@@ -126,3 +138,9 @@ class EditNoteActivity : AppCompatActivity() {
         CREATED
     }
 }
+
+private fun Note.toNoteResponse() = NoteResponse(
+    id = id,
+    title = title,
+    content = content
+)
