@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cactusnotes.R
 
-class NotesAdapter : RecyclerView.Adapter<NotesHolder>() {
+class NotesAdapter(val noteClickListener: (Note) -> Unit) : RecyclerView.Adapter<NotesHolder>() {
     private var notes: List<Note> = listOf()
 
     fun submitList(noteList: List<Note>) {
@@ -20,9 +20,13 @@ class NotesAdapter : RecyclerView.Adapter<NotesHolder>() {
     }
 
     override fun onBindViewHolder(holder: NotesHolder, position: Int) {
-        val n = notes[position]
-        holder.titleText.text = n.title
-        holder.contentText.text = n.content
+        val note = notes[position]
+        holder.titleText.text = note.title
+        holder.contentText.text = note.content
+
+        holder.itemView.setOnClickListener {
+            noteClickListener(note)
+        }
     }
 
     override fun getItemCount() = notes.size
