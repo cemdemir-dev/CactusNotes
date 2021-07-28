@@ -1,5 +1,6 @@
 package com.example.cactusnotes.notes
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -146,6 +147,10 @@ class EditNoteActivity : AppCompatActivity() {
             showDeleteDialog()
             true
         }
+        R.id.share -> {
+            shareNote()
+            true
+        }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -178,6 +183,19 @@ class EditNoteActivity : AppCompatActivity() {
                 ).show()
             }
         })
+    }
+
+    private fun shareNote() {
+        val textToShare = "${note!!.title}\n\n${note!!.content}"
+
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, textToShare)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     enum class NoteState {
