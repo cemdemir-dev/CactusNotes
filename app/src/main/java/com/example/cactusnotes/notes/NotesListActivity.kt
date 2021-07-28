@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
@@ -95,11 +94,14 @@ class NotesListActivity : AppCompatActivity() {
     }
 
     private fun onTokenExpired() {
-
-        Snackbar.make(binding.root, R.string.you_need_login, Snackbar.LENGTH_LONG)
-            .setAction("Log in", View.OnClickListener(navigateToLogin())).show()
-        store.deleteJwt()
-        finish()
+        Snackbar
+            .make(binding.root, R.string.you_need_login, Snackbar.LENGTH_LONG)
+            .setAction(R.string.log_in) {
+                navigateToLogin()
+                store.deleteJwt()
+                finish()
+            }
+            .show()
     }
 
     private fun onSuccessfulResponse(noteListResponse: List<NoteResponse>) {
