@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class NotesListActivity : AppCompatActivity() {
 
@@ -82,6 +84,7 @@ class NotesListActivity : AppCompatActivity() {
             ) {
                 when (response.code()) {
                     200 -> onSuccessfulResponse(response.body()!!)
+                    401, 403 -> onTokenExpired()
                 }
             }
 
@@ -89,7 +92,14 @@ class NotesListActivity : AppCompatActivity() {
                 updateUI(ERROR)
             }
         })
+    }
 
+    private fun onTokenExpired() {
+
+        Snackbar.make(binding.root, R.string.you_need_login, Snackbar.LENGTH_LONG)
+            .setAction("Log in", View.OnClickListener(navigateToLogin())).show()
+        store.deleteJwt()
+        finish()
     }
 
     private fun onSuccessfulResponse(noteListResponse: List<NoteResponse>) {
