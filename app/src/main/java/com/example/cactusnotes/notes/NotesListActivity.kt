@@ -20,6 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class NotesListActivity : AppCompatActivity() {
 
     private var store = UserStore(this)
@@ -82,6 +83,7 @@ class NotesListActivity : AppCompatActivity() {
             ) {
                 when (response.code()) {
                     200 -> onSuccessfulResponse(response.body()!!)
+                    401, 403 -> onTokenExpired()
                 }
             }
 
@@ -89,7 +91,17 @@ class NotesListActivity : AppCompatActivity() {
                 updateUI(ERROR)
             }
         })
+    }
 
+    private fun onTokenExpired() {
+        Snackbar
+            .make(binding.root, R.string.you_need_login, Snackbar.LENGTH_LONG)
+            .setAction(R.string.log_in) {
+                navigateToLogin()
+                store.deleteJwt()
+                finish()
+            }
+            .show()
     }
 
     private fun onSuccessfulResponse(noteListResponse: List<NoteResponse>) {
